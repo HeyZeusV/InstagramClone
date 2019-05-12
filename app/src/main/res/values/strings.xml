@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">InstagramClone</string>
+    <string name="log_in">Log in</string>
+    <string name="or_sign_up">Or, Sign Up</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="or_log_in">Or, Log In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="instagram_logo">Instagram Logo</string>
 </resources>

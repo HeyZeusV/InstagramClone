@@ -3,7 +3,9 @@ package com.heyzeusv.instagramclone;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,12 +17,22 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnKeyListener {
 
     Boolean signUpModeActive = true;
     TextView logInTextView;
+    EditText usernameEditText;
+    EditText passwordEditText;
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            signUpClicked(v);
+        }
+        return false;
+    }
 
     public void switcher(View view) {
 
@@ -28,20 +40,23 @@ public class MainActivity extends AppCompatActivity {
         if (signUpModeActive) {
 
             signUpModeActive = false;
-            signUpButton.setText("Login");
-            logInTextView.setText("Or, Sign Up");
+            signUpButton.setText(R.string.log_in);
+            logInTextView.setText(R.string.or_sign_up);
         } else {
 
             signUpModeActive = true;
-            signUpButton.setText("Sign Up");
-            logInTextView.setText("Or, Log In");
+            signUpButton.setText(R.string.sign_up);
+            logInTextView.setText(R.string.or_log_in);
         }
     }
 
-    public void signUpClicked(View view) {
+    public void removeKeyboard(View view) {
 
-        EditText usernameEditText = findViewById(R.id.usernameEditText);
-        EditText passwordEditText = findViewById(R.id.passwordEditText);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public void signUpClicked(View view) {
 
         if (usernameEditText.getText().toString().equals("") || passwordEditText.getText().toString().equals("")) {
 
@@ -94,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
         logInTextView = findViewById(R.id.logInTextView);
 
+        usernameEditText = findViewById(R.id.usernameEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+
+        passwordEditText.setOnKeyListener(this);
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
     }
 }
