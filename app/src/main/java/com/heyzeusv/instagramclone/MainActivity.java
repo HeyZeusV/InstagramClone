@@ -1,5 +1,6 @@
 package com.heyzeusv.instagramclone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,12 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     TextView logInTextView;
     EditText usernameEditText;
     EditText passwordEditText;
+
+    public void showUserList() {
+
+        Intent intent = new Intent(getApplicationContext(), UserListActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -75,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
                         if (e == null) {
 
-                            Log.i("Signup", "Success!");
+                            Log.i("Sign up", "Success!");
+                            showUserList();
                         } else {
 
                             Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
                         if (user != null) {
 
                             Log.i("Log In", "Okay!");
+                            showUserList();
                         } else {
 
                             Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
 
         passwordEditText.setOnKeyListener(this);
 
+        if (ParseUser.getCurrentUser() != null) {
+
+            showUserList();
+        }
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
     }
